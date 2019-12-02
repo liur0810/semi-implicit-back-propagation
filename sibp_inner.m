@@ -13,16 +13,16 @@ iter = 1;
 for j=1:iter
     gd = softmax(F{N}) - Y;
     F{N} =  F{N} - gd * ita;
-    Weight{N-1} = FR2(F{N-1},b{N-1}*ones(1,Xnumber),F{N},Weight{N-1},lambda{N-1}(1));
-    b{N-1} = FR2(ones(1,Xnumber),Weight{N-1}*F{N-1},F{N},b{N-1},lambda{N-1}(2));
+    Weight{N-1} = FR4(F{N-1},b{N-1}*ones(1,Xnumber),F{N},Weight{N-1},lambda{N-1}(1));
+    b{N-1} = FR4(ones(1,Xnumber),Weight{N-1}*F{N-1},F{N},b{N-1},lambda{N-1}(2));
     gd = Weight{N-1}' * gd;
     mid = F{N-1};
     F{N-1} = F{N-1} - ita * gd;
 end
 for i=(N-2):-1:1
     for j=1:iter
-        Weight{i} = FR(F{i},b{i}*ones(1,Xnumber),F{i+1},Weight{i},lambda{i}(1));
-        b{i} = FR(ones(1,Xnumber),Weight{i}*F{i},F{i+1},b{i},lambda{i}(2));
+        Weight{i} = FR3(F{i},b{i}*ones(1,Xnumber),F{i+1},Weight{i},lambda{i}(1));
+        b{i} = FR3(ones(1,Xnumber),Weight{i}*F{i},F{i+1},b{i},lambda{i}(2));
         if i > 1
             mid(mid>0) = 1;
             gd = Weight{i}' * (gd .* mid);
